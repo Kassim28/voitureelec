@@ -1,0 +1,444 @@
+{
+  "carList": [
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 63, "usable_kwh": 63 },
+      "connectors": [
+        { "power": 6.6, "speed": 29, "standard": "IEC_62196_T2", "time": 675 },
+        {
+          "power": 78,
+          "speed": 380,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 36    
+        }
+      ],
+      "id": "5f043da2bc262f1627fc0333",
+      "naming": {
+        "chargetrip_version": "63 kWh (2020 - 2022)",
+        "edition": null,
+        "make": "Aiways",
+        "model": "U5",
+        "version": null
+      },
+      "range": { "chargetrip_range": { "best": 379, "worst": 325 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 63, "usable_kwh": 63 },
+      "connectors": [
+        { "power": 11, "speed": 49, "standard": "IEC_62196_T2", "time": 405 },
+        {
+          "power": 78,
+          "speed": 380,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 36
+        }
+      ],
+      "id": "6261f0371b50697eb77bf4cd",
+      "naming": {
+        "chargetrip_version": "63 kWh (early 2022)",
+        "edition": null,
+        "make": "Aiways",
+        "model": "U5",
+        "version": null
+      },
+      "range": { "chargetrip_range": { "best": 385, "worst": 330 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 55, "usable_kwh": 52 },
+      "connectors": [
+        { "power": 7.2, "speed": 35, "standard": "IEC_62196_T2", "time": 510 },
+        {
+          "power": 70,
+          "speed": 370,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 33
+        }
+      ],
+      "id": "6077821445221216223f77b1",
+      "naming": {
+        "chargetrip_version": "35",
+        "edition": null,
+        "make": "Audi",
+        "model": "Q4 Sportback e-tron",
+        "version": "35"
+      },
+      "range": { "chargetrip_range": { "best": 308, "worst": 265 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 82, "usable_kwh": 76.6 },
+      "connectors": [
+        { "power": 11, "speed": 52, "standard": "IEC_62196_T2", "time": 495 },
+        {
+          "power": 103,
+          "speed": 540,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 33
+        }
+      ],
+      "id": "6104929c742a76962b4e622b",
+      "naming": {
+        "chargetrip_version": "40",
+        "edition": null,
+        "make": "Audi",
+        "model": "Q4 Sportback e-tron",
+        "version": "40"
+      },
+      "range": { "chargetrip_range": { "best": 442, "worst": 379 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 82, "usable_kwh": 76.6 },
+      "connectors": [
+        { "power": 11, "speed": 48, "standard": "IEC_62196_T2", "time": 495 },
+        {
+          "power": 103,
+          "speed": 500,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 33
+        }
+      ],
+      "id": "62d5f4321204e02601b235e0",
+      "naming": {
+        "chargetrip_version": "45 quattro",
+        "edition": null,
+        "make": "Audi",
+        "model": "Q4 Sportback e-tron",
+        "version": "45 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 438, "worst": 376 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 82, "usable_kwh": 76.6 },
+      "connectors": [
+        { "power": 11, "speed": 48, "standard": "IEC_62196_T2", "time": 495 },
+        {
+          "power": 103,
+          "speed": 500,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 33
+        }
+      ],
+      "id": "60778219452212acfe3f77bd",
+      "naming": {
+        "chargetrip_version": "50 quattro",
+        "edition": null,
+        "make": "Audi",
+        "model": "Q4 Sportback e-tron",
+        "version": "50 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 438, "worst": 376 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 55, "usable_kwh": 52 },
+      "connectors": [
+        { "power": 7.2, "speed": 34, "standard": "IEC_62196_T2", "time": 510 },
+        {
+          "power": 70,
+          "speed": 360,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 33
+        }
+      ],
+      "id": "605a823566d26536922ebdfe",
+      "naming": {
+        "chargetrip_version": "35",
+        "edition": null,
+        "make": "Audi",
+        "model": "Q4 e-tron",
+        "version": "35"
+      },
+      "range": { "chargetrip_range": { "best": 307, "worst": 263 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 82, "usable_kwh": 76.6 },
+      "connectors": [
+        { "power": 11, "speed": 49, "standard": "IEC_62196_T2", "time": 495 },
+        {
+          "power": 103,
+          "speed": 510,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 33
+        }
+      ],
+      "id": "607782184522125f293f77b9",
+      "naming": {
+        "chargetrip_version": "40",
+        "edition": null,
+        "make": "Audi",
+        "model": "Q4 e-tron",
+        "version": "40"
+      },
+      "range": { "chargetrip_range": { "best": 439, "worst": 377 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 82, "usable_kwh": 76.6 },
+      "connectors": [
+        { "power": 11, "speed": 47, "standard": "IEC_62196_T2", "time": 495 },
+        {
+          "power": 103,
+          "speed": 490,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 33
+        }
+      ],
+      "id": "6104929c742a76c1d64e6229",
+      "naming": {
+        "chargetrip_version": "45 quattro",
+        "edition": null,
+        "make": "Audi",
+        "model": "Q4 e-tron",
+        "version": "45 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 440, "worst": 378 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 82, "usable_kwh": 76.6 },
+      "connectors": [
+        { "power": 11, "speed": 47, "standard": "IEC_62196_T2", "time": 495 },
+        {
+          "power": 103,
+          "speed": 490,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 33
+        }
+      ],
+      "id": "6077821945221262883f77bb",
+      "naming": {
+        "chargetrip_version": "50 quattro",
+        "edition": null,
+        "make": "Audi",
+        "model": "Q4 e-tron",
+        "version": "50 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 436, "worst": 374 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 71, "usable_kwh": 64.7 },
+      "connectors": [
+        { "power": 11, "speed": 40, "standard": "IEC_62196_T2", "time": 420 },
+        {
+          "power": 114,
+          "speed": 470,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 25
+        }
+      ],
+      "id": "5f043d3bbc262f1627fc0309",
+      "naming": {
+        "chargetrip_version": "50 quattro (2019 - 2021)",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron",
+        "version": "50 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 357, "worst": 307 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 71, "usable_kwh": 64.7 },
+      "connectors": [
+        { "power": 11, "speed": 40, "standard": "IEC_62196_T2", "time": 420 },
+        {
+          "power": 114,
+          "speed": 470,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 25
+        }
+      ],
+      "id": "623bb4d835b2be28d404ea08",
+      "naming": {
+        "chargetrip_version": "50 quattro (late 2021)",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron",
+        "version": "50 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 357, "worst": 307 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 95, "usable_kwh": 86.5 },
+      "connectors": [
+        { "power": 11, "speed": 39, "standard": "IEC_62196_T2", "time": 555 },
+        {
+          "power": 146,
+          "speed": 590,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 26
+        }
+      ],
+      "id": "5f043d91bc262f1627fc032f",
+      "naming": {
+        "chargetrip_version": "55 quattro (2019 - 2020)",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron",
+        "version": "55 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 442, "worst": 381 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 95, "usable_kwh": 86.5 },
+      "connectors": [
+        { "power": 11, "speed": 39, "standard": "IEC_62196_T2", "time": 555 },
+        {
+          "power": 146,
+          "speed": 590,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 26
+        }
+      ],
+      "id": "5d161beac9eef4a1f1d9d21a",
+      "naming": {
+        "chargetrip_version": "55 quattro (2019)",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron",
+        "version": "55 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 444, "worst": 382 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 95, "usable_kwh": 86.5 },
+      "connectors": [
+        { "power": 11, "speed": 39, "standard": "IEC_62196_T2", "time": 555 },
+        {
+          "power": 146,
+          "speed": 590,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 26
+        }
+      ],
+      "id": "600e964e5fc2eee576b1f197",
+      "naming": {
+        "chargetrip_version": "55 quattro (late 2020)",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron",
+        "version": "55 quattro"
+      },
+      "range": { "chargetrip_range": { "best": 444, "worst": 382 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 93.4, "usable_kwh": 85 },
+      "connectors": [
+        { "power": 11, "speed": 45, "standard": "IEC_62196_T2", "time": 555 },
+        {
+          "power": 216,
+          "speed": 1030,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 17
+        }
+      ],
+      "id": "602322dab116937566a61212",
+      "naming": {
+        "chargetrip_version": "Quattro",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron GT",
+        "version": "quattro"
+      },
+      "range": { "chargetrip_range": { "best": 506, "worst": 434 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 93.4, "usable_kwh": 85 },
+      "connectors": [
+        { "power": 11, "speed": 44, "standard": "IEC_62196_T2", "time": 555 },
+        {
+          "power": 216,
+          "speed": 1000,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 17
+        }
+      ],
+      "id": "602322d6b116933b57a61210",
+      "naming": {
+        "chargetrip_version": "RS",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron GT",
+        "version": "RS"
+      },
+      "range": { "chargetrip_range": { "best": 499, "worst": 429 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 95, "usable_kwh": 86.5 },
+      "connectors": [
+        { "power": 11, "speed": 35, "standard": "IEC_62196_T2", "time": 555 },
+        {
+          "power": 146,
+          "speed": 510,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 26
+        }
+      ],
+      "id": "5f043db0bc262f1627fc0339",
+      "naming": {
+        "chargetrip_version": "55 quattro",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron S",
+        "version": null
+      },
+      "range": { "chargetrip_range": { "best": 430, "worst": 371 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 95, "usable_kwh": 86.5 },
+      "connectors": [
+        { "power": 11, "speed": 35, "standard": "IEC_62196_T2", "time": 555 },
+        {
+          "power": 146,
+          "speed": 510,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 26
+        }
+      ],
+      "id": "623bb4d735b2be28d404e9e4",
+      "naming": {
+        "chargetrip_version": "60",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron S",
+        "version": ""
+      },
+      "range": { "chargetrip_range": { "best": 426, "worst": 367 } }
+    },
+    {
+      "adapters": [],
+      "battery": { "full_kwh": 95, "usable_kwh": 86.5 },
+      "connectors": [
+        { "power": 11, "speed": 36, "standard": "IEC_62196_T2", "time": 555 },
+        {
+          "power": 146,
+          "speed": 540,
+          "standard": "IEC_62196_T2_COMBO",
+          "time": 26
+        }
+      ],
+      "id": "5f043db7bc262f1627fc033b",
+      "naming": {
+        "chargetrip_version": "55 quattro",
+        "edition": null,
+        "make": "Audi",
+        "model": "e-tron S Sportback",
+        "version": null
+      },
+      "range": { "chargetrip_range": { "best": 450, "worst": 388 } }
+    }
+  ]
+}

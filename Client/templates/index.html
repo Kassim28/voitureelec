@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT</title>
+</head>
+<body>
+    <section>
+        <h1>L'autonomie de la voiture est de {{autonomie}} Km.</h1>
+        <h1>La distance du trajet est de {{distance}} Km.</h1>
+    </section>
+    <section>
+        <form method="post" action="./">
+            <label for="autonomie">Veuillez saisir l'autonomie de votre voiture:</label><br>
+            <input type="number" id="autonomie" name="autonomie"><br>
+            <label for="distance">Veuillez saisir la distance de votre trajet:</label><br>
+            <input type="number" id="distance" name="distance"><br>
+            <label for="coordonees">Veuillez saisir vos coordonées GPS (latitude,longitude):</label><br>
+            <input type="text" id="coordonees" name="coordonees"><br>
+            <input type="submit" value="Submit">
+        </form>
+    </section>
+    <h2>La durée estimée du trajet est de {{res}} heures.</h2>
+    <section>
+
+    </section>
+</body>
+</html>
