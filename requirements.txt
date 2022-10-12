@@ -2,3 +2,4 @@ flask
 zeep   
 gql
 gunicorn
+folium
