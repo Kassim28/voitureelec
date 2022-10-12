@@ -13,11 +13,15 @@ app = Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def start():
    listeVoitures = query()
+
+   if request.method == "GET":
+      return render_template('index.html',listeVoitures=listeVoitures)
+
    if request.method == "POST":
       autonomie_voiture = request.form.get("autonomie") #recupere l'autonomie de la voiture solicitée
       depart = request.form.get("depart") #recupere le nom de la ville de départ
       arrivee = request.form.get("arrivee") #recupere le nom de la ville d'arrivée
-   return render_template('index.html',listeVoitures=listeVoitures, depart=depart,arrivee=arrivee)
+      return carte(depart,arrivee)
 
 @app.route("/calculatrice", methods=['GET', 'POST'])
 def Calculatrice(autonomie,distance):
