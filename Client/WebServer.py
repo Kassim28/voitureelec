@@ -8,8 +8,13 @@ from gql.transport.aiohttp import AIOHTTPTransport
 
 # Flask constructor
 app = Flask(__name__)
-
 @app.route("/", methods=['GET', 'POST'])
+def start():
+   return render_template('index.html')
+
+
+
+@app.route("/calculatrice", methods=['GET', 'POST'])
 def Calculatrice(autonomie,distance):
     url = 'http://192.168.1.68:8000/?wsdl'
     client = Client(url)
@@ -79,7 +84,7 @@ def carte():
    folium.Marker(depart, popup="<i>Depart</i>", icon=folium.Icon(icon="flag", color="blue"), tooltip=tooltip).add_to(m) #drapeau depart en bleu
    folium.Marker(arrivee, popup="<b>Arrivee</b>", icon=folium.Icon(icon="flag", color="red"), tooltip=tooltip).add_to(m) #drapeau arrivee en rouge
    """
-   for i in range(i-1): # boucle qui rajoutes markers pour les bornes
+   for i in range(i-1): # boucle qui rajoutes markers pour les bornes!
       longitude = res["features"][0]["geometry"]["coordinates"][i][0]
       latitude = res["features"][0]["geometry"]["coordinates"][i][1]
       coordonnee_trajet = [latitude,longitude]
