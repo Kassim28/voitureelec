@@ -17,7 +17,6 @@ def start():
       autonomie_voiture = request.form.get("autonomie") #recupere l'autonomie de la voiture solicitée
       depart = request.form.get("depart") #recupere le nom de la ville de départ
       arrivee = request.form.get("arrivee") #recupere le nom de la ville d'arrivée
-   carte(depart,arrivee)
    return render_template('index.html',listeVoitures=listeVoitures, depart=depart,arrivee=arrivee)
 
 @app.route("/calculatrice", methods=['GET', 'POST'])
