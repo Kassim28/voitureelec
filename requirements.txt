@@ -3,3 +3,5 @@ zeep
 gql
 gunicorn
 folium
+aiohttp
+requests
