@@ -8,11 +8,17 @@ from gql.transport.aiohttp import AIOHTTPTransport
 
 # Flask constructor
 app = Flask(__name__)
+
+
 @app.route("/", methods=['GET', 'POST'])
 def start():
-   return render_template('index.html')
-
-
+   listeVoitures = query()
+   if request.method == "POST":
+      autonomie_voiture = request.form.get("autonomie") #recupere l'autonomie de la voiture solicitée
+      depart = request.form.get("depart") #recupere le nom de la ville de départ
+      arrivee = request.form.get("arrivee") #recupere le nom de la ville d'arrivée
+   carte(depart,arrivee)
+   return render_template('index.html',listeVoitures=listeVoitures, depart=depart,arrivee=arrivee)
 
 @app.route("/calculatrice", methods=['GET', 'POST'])
 def Calculatrice(autonomie,distance):
@@ -30,7 +36,7 @@ def Calculatrice(autonomie,distance):
 @app.route("/bornes", methods=['GET', 'POST'])
 #fonction qui retourne un tableau avec les coordonnees GPS d'une borne dans un rayon de 10 KM 
 #cette fonction prend comme variable les coordonnes de la forme suivante: [latitude,longitude]
-def geofilter(coordonnees):
+def geofilter_bornes(coordonnees):
    latitude = coordonnees[0]
    longitude = coordonnees[1]
    rayon = 10000 #rayon de recherche des bornes
@@ -45,17 +51,14 @@ def geofilter(coordonnees):
    return tab
    
 @app.route("/geo", methods=['GET', 'POST'])
-def carte():
+def carte(depart,arrivee):
    tooltip = ""
 
-   latitude_depart = 55.720041
-   longitude_depart = 37.610376
+   latitude_depart = depart[1]
+   longitude_depart = depart[0]
    
-   latitude_arrivee = 43.274699
-   longitude_arrivee = 5.384757
-   
-   depart = [latitude_depart,longitude_depart]
-   arrivee = [latitude_arrivee,longitude_arrivee]
+   latitude_arrivee = arrivee[1]
+   longitude_arrivee = arrivee[0]
 
    headers = {'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',}
    api_key = '5b3ce3597851110001cf62485f5fee809b214c329e05166228f3f13d' #openroute token 
@@ -64,9 +67,11 @@ def carte():
 
    distance = res["features"][0]["properties"]["summary"]["distance"] #distance du trajet en metres
 
+   """
    autonomie = 15 #Autonomie de la voiture en km
    autonomie_10 = round(autonomie/10)
    distance_parcourue = 0
+   """
 
    trajet = [] #tableau qui prend la liste des coordonnes GPS pour le trajet
    
@@ -83,18 +88,21 @@ def carte():
    
    folium.Marker(depart, popup="<i>Depart</i>", icon=folium.Icon(icon="flag", color="blue"), tooltip=tooltip).add_to(m) #drapeau depart en bleu
    folium.Marker(arrivee, popup="<b>Arrivee</b>", icon=folium.Icon(icon="flag", color="red"), tooltip=tooltip).add_to(m) #drapeau arrivee en rouge
-   """
-   for i in range(i-1): # boucle qui rajoutes markers pour les bornes!
-      longitude = res["features"][0]["geometry"]["coordinates"][i][0]
-      latitude = res["features"][0]["geometry"]["coordinates"][i][1]
-      coordonnee_trajet = [latitude,longitude]
-      coordonnees_borne = geofilter(coordonnee_trajet)
-   """
-      #folium.Marker(list(coordonnees_borne[0]), tooltip=tooltip).add_to(m)
 
    folium.PolyLine(trajet,color='red',weight=15,opacity=0.8).add_to(m)
 
    return m._repr_html_()
+
+@app.route("/geocode", methods=['GET', 'POST'])
+def geocode(ville):
+   headers = {'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',}
+   api_key = '5b3ce3597851110001cf62485f5fee809b214c329e05166228f3f13d' #openroute token 
+   res_ville = requests.get('https://api.openrouteservice.org/geocode/search?api_key=' + api_key + '&text=' + ville, headers=headers)
+   res_ville = res_dep.json()
+   longitude = res_ville["features"][0]["geometry"]["coordinates"][0]
+   latitude = res_ville["features"][0]["geometry"]["coordinates"][0]
+   coordonnees_ville = [latitude,longitude]
+   return coordonnees_ville
 
 @app.route("/graphql", methods=['GET', 'POST'])
 #https://developers.chargetrip.com/api-reference/cars/query-cars#query
@@ -166,5 +174,6 @@ def query():
 
       list_Voiture.append(voiture)
 
-   print(list_Voiture)
-   return res
+   return list_Voiture
+
+   
