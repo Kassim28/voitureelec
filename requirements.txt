@@ -1,3 +1,4 @@
 flask  
 zeep   
-gqlgunicorn
+gql
+gunicorn
