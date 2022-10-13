@@ -18,13 +18,16 @@ def start():
       return render_template('index.html',listeVoitures=listeVoitures)
 
    if request.method == "POST":
-      autonomie_voiture = request.form.get("autonomie") #recupere l'autonomie de la voiture solicitée
+      voiture_choisie = request.form.get("voiture_choisie") #recupere l'autonomie de la voiture solicitée
       depart = request.form.get("depart") #recupere le nom de la ville de départ
       arrivee = request.form.get("arrivee") #recupere le nom de la ville d'arrivée
-      calculatrice_duree(autonomie_voiture,distance(depart,arrivee))
+      print("LA VOITURE CHOISIE EST: " + voiture_choisie)
+      autonomie_voiture = voiture_choisie[1]
+      print(autonomie_voiture)
+      #calculatrice_duree(autonomie_voiture,distance(depart,arrivee))
       coordonnees_depart = geocode(depart)
       coordonnees_arrivee = geocode(arrivee)
-      return carte(coordonnees_depart,coordonnees_arrivee,autonomie_voiture)
+      return carte(coordonnees_depart,coordonnees_arrivee,voiture_choisie)
 
 @app.route("/calculatrice", methods=['GET', 'POST'])
 def calculatrice_duree(autonomie,distance):
@@ -39,7 +42,7 @@ def calculatrice_duree(autonomie,distance):
 def geofilter_bornes(coordonnees):
    latitude = coordonnees[0]
    longitude = coordonnees[1]
-   rayon = 100000 #rayon de recherche des bornes
+   rayon = 100000 #rayon de recherche des bornes en mètres
    nb_bornes = 1
    
    url = 'https://odre.opendatasoft.com/api/records/1.0/search/?dataset=bornes-irve&q=&rows=' + str(nb_bornes) + '&facet=region&facet=departement&geofilter.distance=' + str(latitude) + '%2C' + str(longitude) + '%2C' + str(rayon)
@@ -87,17 +90,19 @@ def carte(depart,arrivee,autonomie):
    etape = 0
    waypoint_num = 0  
    distance_parcourue = 0
+
+   m = folium.Map(location=[46.3622, 1.5231], zoom_start=6) #Affiche la carte avec les coordonnes GPS du centre de la France
       
    for i in range(i-1): # boucle qui rajoute les coordonnes GPS dans un tableau pour le trajet
       etapes_waypoints = res["features"][0]["properties"]["segments"][0]["steps"][etape]["way_points"][1]
-      print("num etap waypoints est" + str(etapes_waypoints))
+      #print("num etap waypoints est" + str(etapes_waypoints))
       if (etapes_waypoints == i):
          break
       else:
          longitude = res["features"][0]["geometry"]["coordinates"][i][0]
          latitude = res["features"][0]["geometry"]["coordinates"][i][1]
          waypoint_num += 1
-         print("num waypoint est : " + str(waypoint_num))
+         #print("num waypoint est : " + str(waypoint_num))
          if (waypoint_num == etapes_waypoints):
             distance_parcourue += round(res["features"][0]["properties"]["segments"][0]["steps"][etape]["distance"])
             etape += 1
@@ -106,15 +111,22 @@ def carte(depart,arrivee,autonomie):
             if ((autonomie - distance_parcourue) >= autonomie_10):
                trajet.append(tuple([latitude,longitude])) # ajoute au tableau la liste des coordonées GPS      
             else:
-               coordonnes_bornes = [latitude,longitude]
-               trajet.append(geofilter_bornes(coordonnes_bornes))
+               latitude_depart = depart[0]
+               longitude_depart = depart[1]
+               latitude_arrivee = arrivee[0]
+               longitude_arrivee = arrivee[1]
+
+               coordonnes = [latitude,longitude]
+               coordonnes_bornes = geofilter_bornes(coordonnes)
+               #trajet.append(coordonnes_bornes)
+               folium.Marker(coordonnes_bornes, popup="<i>Borne</i>", icon=folium.Icon(color="green"), tooltip=tooltip).add_to(m) #drapeaude borne en bleu
                print("RECHARGEMENT!!!!!!!!!")
                distance_parcourue = 0
          else:
             trajet.append(tuple([latitude,longitude])) # ajoute au tableau la liste des coordonées GPS      
-   print("la distance est de " + str(distance) + "km")
+   print("la distance est de " + str(round(distance)) + "m")
    print
-   m = folium.Map(location=[46.3622, 1.5231], zoom_start=6) #Affiche la carte avec les coordonnes GPS du centre de la France
+   
 
    
    folium.Marker(depart, popup="<i>Depart</i>", icon=folium.Icon(icon="flag", color="blue"), tooltip=tooltip).add_to(m) #drapeau depart en bleu
@@ -205,7 +217,7 @@ def query():
          voiture.append(temps_rechargement_voiture)
 
          list_Voiture.append(voiture)
-
+      print(list_Voiture)
       return list_Voiture
 
          
