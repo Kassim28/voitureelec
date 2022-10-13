@@ -21,7 +21,9 @@ def start():
       autonomie_voiture = request.form.get("autonomie") #recupere l'autonomie de la voiture solicitée
       depart = request.form.get("depart") #recupere le nom de la ville de départ
       arrivee = request.form.get("arrivee") #recupere le nom de la ville d'arrivée
-      return carte(depart,arrivee)
+      coordonnees_depart = geocode(depart)
+      coordonnees_arrivee = geocode(arrivee)
+      return carte(coordonnees_depart,coordonnees_arrivee)
 
 @app.route("/calculatrice", methods=['GET', 'POST'])
 def Calculatrice(autonomie,distance):
@@ -100,8 +102,8 @@ def carte(depart,arrivee):
 def geocode(ville):
    headers = {'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',}
    api_key = '5b3ce3597851110001cf62485f5fee809b214c329e05166228f3f13d' #openroute token 
-   res_ville = requests.get('https://api.openrouteservice.org/geocode/search?api_key=' + api_key + '&text=' + ville, headers=headers)
-   res_ville = res_dep.json()
+   res_ville = requests.get('https://api.openrouteservice.org/geocode/search?api_key=' + api_key + '&text=' + str(ville), headers=headers)
+   res_ville = res_ville.json()
    longitude = res_ville["features"][0]["geometry"]["coordinates"][0]
    latitude = res_ville["features"][0]["geometry"]["coordinates"][0]
    coordonnees_ville = [latitude,longitude]
