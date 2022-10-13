@@ -59,17 +59,16 @@ def geofilter_bornes(coordonnees):
 def carte(depart,arrivee):
    tooltip = ""
 
-   latitude_depart = depart[1]
-   longitude_depart = depart[0]
+   latitude_depart = depart[0]
+   longitude_depart = depart[1]
    
-   latitude_arrivee = arrivee[1]
-   longitude_arrivee = arrivee[0]
-
+   latitude_arrivee = arrivee[0]
+   longitude_arrivee = arrivee[1]
    headers = {'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',}
    api_key = '5b3ce3597851110001cf62485f5fee809b214c329e05166228f3f13d' #openroute token 
    res = requests.get('https://api.openrouteservice.org/v2/directions/driving-car?api_key=' + api_key + '&start=' + str(longitude_depart) + ',' + str(latitude_depart) + '&end=' + str(longitude_arrivee) + ',' + str(latitude_arrivee) , headers=headers)
    res = res.json()
-
+   print(res)
    distance = res["features"][0]["properties"]["summary"]["distance"] #distance du trajet en metres
 
    """
@@ -105,7 +104,7 @@ def geocode(ville):
    res_ville = requests.get('https://api.openrouteservice.org/geocode/search?api_key=' + api_key + '&text=' + str(ville), headers=headers)
    res_ville = res_ville.json()
    longitude = res_ville["features"][0]["geometry"]["coordinates"][0]
-   latitude = res_ville["features"][0]["geometry"]["coordinates"][0]
+   latitude = res_ville["features"][0]["geometry"]["coordinates"][1]
    coordonnees_ville = [latitude,longitude]
    return coordonnees_ville
 

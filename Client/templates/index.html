@@ -11,14 +11,14 @@
                 {% for i in listeVoitures %}
                     <option value={{i[2]}}>{{i[0]}} avec une autonomie de {{i[1]}} Km</option>
                 {% endfor %}
-              </select>
+            </select>
             <div class="mb-3">
-                <label class="form-label" name="depart">Nom de ville de départ</label>
-                <input type="text" class="form-control">
+                <label class="form-label">Nom de ville de départ</label>
+                <input type="text" name="depart" class="form-control">
             </div>
             <div class="mb-3">
-                <label class="form-label" name="arrivee">Nom de ville d'arrivée</label>
-                <input type="text" class="form-control">
+                <label class="form-label">Nom de ville d'arrivée</label>
+                <input type="text" name="arrivee" class="form-control">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
