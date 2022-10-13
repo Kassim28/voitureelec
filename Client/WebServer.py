@@ -68,13 +68,14 @@ def carte(depart,arrivee):
    api_key = '5b3ce3597851110001cf62485f5fee809b214c329e05166228f3f13d' #openroute token 
    res = requests.get('https://api.openrouteservice.org/v2/directions/driving-car?api_key=' + api_key + '&start=' + str(longitude_depart) + ',' + str(latitude_depart) + '&end=' + str(longitude_arrivee) + ',' + str(latitude_arrivee) , headers=headers)
    res = res.json()
-   print(res)
    distance = res["features"][0]["properties"]["summary"]["distance"] #distance du trajet en metres
 
    """
    autonomie = 15 #Autonomie de la voiture en km
    autonomie_10 = round(autonomie/10)
    distance_parcourue = 0
+   coordonnee_temp = []
+   waypoint_temp = 0
    """
 
    trajet = [] #tableau qui prend la liste des coordonnes GPS pour le trajet
