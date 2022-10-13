@@ -23,7 +23,7 @@ def start():
       arrivee = request.form.get("arrivee") #recupere le nom de la ville d'arrivée
       coordonnees_depart = geocode(depart)
       coordonnees_arrivee = geocode(arrivee)
-      return carte(coordonnees_depart,coordonnees_arrivee)
+      return carte(coordonnees_depart,coordonnees_arrivee,autonomie_voiture)
 
 @app.route("/calculatrice", methods=['GET', 'POST'])
 def Calculatrice(autonomie,distance):
@@ -50,13 +50,12 @@ def geofilter_bornes(coordonnees):
    url = 'https://odre.opendatasoft.com/api/records/1.0/search/?dataset=bornes-irve&q=&rows=' + str(nb_bornes) + '&facet=region&facet=departement&geofilter.distance=' + str(latitude) + '%2C' + str(longitude) + '%2C' + str(rayon)
    res = requests.get(url) 
    res = res.json()
-   tab = []
-   #for i in range(nb_bornes - 1):
-   tab.append(tuple(res["records"][0]["fields"]["geo_point_borne"])) # ajoute au tableau la liste des bornes
-   return tab
+   coordonnes_bornes = ()
+   coordonnes_bornes = tuple(res["records"][0]["fields"]["geo_point_borne"]) # ajoute dans un tuple les coordonnees d'une borne
+   return coordonnes_bornes
    
 @app.route("/geo", methods=['GET', 'POST'])
-def carte(depart,arrivee):
+def carte(depart,arrivee,autonomie):
    tooltip = ""
 
    latitude_depart = depart[0]
@@ -69,24 +68,46 @@ def carte(depart,arrivee):
    res = requests.get('https://api.openrouteservice.org/v2/directions/driving-car?api_key=' + api_key + '&start=' + str(longitude_depart) + ',' + str(latitude_depart) + '&end=' + str(longitude_arrivee) + ',' + str(latitude_arrivee) , headers=headers)
    res = res.json()
    distance = res["features"][0]["properties"]["summary"]["distance"] #distance du trajet en metres
-
-   """
-   autonomie = 15 #Autonomie de la voiture en km
-   autonomie_10 = round(autonomie/10)
-   distance_parcourue = 0
-   coordonnee_temp = []
-   waypoint_temp = 0
-   """
-
+   print("la distance est de " + str(distance) + "km")
    trajet = [] #tableau qui prend la liste des coordonnes GPS pour le trajet
    
    i = res["features"][0]["properties"]["way_points"][1] # nombre total de coordonnees GPS pour le trajet
+   
+   print(i)
+   autonomie = int(autonomie) * 1000
+   autonomie_10 = round(autonomie/10)
+   
+   etape = 0
+   waypoint_num = 0  
+   distance_parcourue = 0
+   
 
+   
    for i in range(i-1): # boucle qui rajoute les coordonnes GPS dans un tableau pour le trajet
-      longitude = res["features"][0]["geometry"]["coordinates"][i][0]
-      latitude = res["features"][0]["geometry"]["coordinates"][i][1]
-      trajet.append(tuple([latitude,longitude])) # ajoute au tableau la liste des coordonées GPS
-
+      etapes_waypoints = res["features"][0]["properties"]["segments"][0]["steps"][etape]["way_points"][1]
+      print("num etap waypoints est" + str(etapes_waypoints))
+      if (etapes_waypoints == i):
+         break
+      else:
+         longitude = res["features"][0]["geometry"]["coordinates"][i][0]
+         latitude = res["features"][0]["geometry"]["coordinates"][i][1]
+         waypoint_num += 1
+         print("num waypoint est : " + str(waypoint_num))
+         if (waypoint_num == etapes_waypoints):
+            distance_parcourue += res["features"][0]["properties"]["segments"][0]["steps"][etape]["distance"]
+            etape += 1
+            print("etape =" + str(etape))
+            print("distance parcourue est de " + str(distance_parcourue))
+            if (distance_parcourue <= autonomie_10):
+               trajet.append(tuple([latitude,longitude])) # ajoute au tableau la liste des coordonées GPS      
+            else:
+               coordonnes_bornes = [latitude,longitude]
+               print(coordonnes_bornes)
+               trajet.append(geofilter_bornes(coordonnes_bornes))
+               distance_parcourue = 0
+         else:
+            trajet.append(tuple([latitude,longitude])) # ajoute au tableau la liste des coordonées GPS      
+   
 
    m = folium.Map(location=[46.3622, 1.5231], zoom_start=6) #Affiche la carte avec les coordonnes GPS du centre de la France
 
