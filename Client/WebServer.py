@@ -87,6 +87,7 @@ def carte(depart,arrivee,autonomie):
    autonomie = int(autonomie) * 1000
    autonomie_10 = round(autonomie/10)
 
+
    etape = 0
    waypoint_num = 0  
    distance_parcourue = 0
@@ -108,26 +109,17 @@ def carte(depart,arrivee,autonomie):
             etape += 1
             print("etape =" + str(etape))
             print("distance parcourue est de " + str(distance_parcourue) + " mètres")
-            if ((autonomie - distance_parcourue) >= autonomie_10):
+            if ((autonomie - distance_parcourue) >= (autonomie_10):
                trajet.append(tuple([latitude,longitude])) # ajoute au tableau la liste des coordonées GPS      
             else:
-               latitude_depart = depart[0]
-               longitude_depart = depart[1]
-               latitude_arrivee = arrivee[0]
-               longitude_arrivee = arrivee[1]
-
                coordonnes = [latitude,longitude]
                coordonnes_bornes = geofilter_bornes(coordonnes)
-               #trajet.append(coordonnes_bornes)
                folium.Marker(coordonnes_bornes, popup="<i>Borne</i>", icon=folium.Icon(color="green"), tooltip=tooltip).add_to(m) #drapeaude borne en bleu
                print("RECHARGEMENT!!!!!!!!!")
                distance_parcourue = 0
          else:
             trajet.append(tuple([latitude,longitude])) # ajoute au tableau la liste des coordonées GPS      
-   print("la distance est de " + str(round(distance)) + "m")
-   print
-   
-
+   print("la distance est de " + str(round(distance)) + " m")
    
    folium.Marker(depart, popup="<i>Depart</i>", icon=folium.Icon(icon="flag", color="blue"), tooltip=tooltip).add_to(m) #drapeau depart en bleu
    folium.Marker(arrivee, popup="<b>Arrivee</b>", icon=folium.Icon(icon="flag", color="red"), tooltip=tooltip).add_to(m) #drapeau arrivee en rouge
