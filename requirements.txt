@@ -1,7 +1,8 @@
 flask  
-zeep   
+zeep
 gql
 gunicorn
 folium
 aiohttp
 requests
+spyne
