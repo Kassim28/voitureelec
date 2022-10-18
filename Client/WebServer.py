@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 import requests
-from zeep import Client
+from zeep_client import *
 import json
 import folium
 from gql import gql, Client
@@ -21,22 +21,18 @@ def start():
       voiture_choisie = request.form.get("voiture_choisie") #recupere l'autonomie de la voiture solicitée
       depart = request.form.get("depart") #recupere le nom de la ville de départ
       arrivee = request.form.get("arrivee") #recupere le nom de la ville d'arrivée
-      print("LA VOITURE CHOISIE EST: " + voiture_choisie)
-      autonomie_voiture = voiture_choisie[1]
-      print(autonomie_voiture)
-      #calculatrice_duree(autonomie_voiture,distance(depart,arrivee))
+      autonomie_voiture = list(voiture_choisie.split())[-2].replace(',', '')
+      rechargement_voiture = list(voiture_choisie.split())[-1].replace(']', '')
+      print("L'autonomie de la voiture est de " + autonomie_voiture + " km.")
+      print("Le temps de rechargement de la voiture est de " + rechargement_voiture + " minutes.")
+      print("La distance du trajet est de " + str(distance(depart,arrivee)) + " mètres.")
+      calculatrice_duree(autonomie_voiture,distance(depart,arrivee),rechargement_voiture)
+      print(calculatrice_duree(autonomie_voiture,distance(depart,arrivee),rechargement_voiture))
       coordonnees_depart = geocode(depart)
       coordonnees_arrivee = geocode(arrivee)
-      return carte(coordonnees_depart,coordonnees_arrivee,voiture_choisie)
+      return carte(coordonnees_depart,coordonnees_arrivee,autonomie_voiture)
 
-@app.route("/calculatrice", methods=['GET', 'POST'])
-def calculatrice_duree(autonomie,distance):
-    url = 'http://192.168.56.103:8000/?wsdl'
-    client = Client(url)
-    res = client.service.ETA(autonomie, distance)
-    return res
 
-@app.route("/bornes", methods=['GET', 'POST'])
 #fonction qui retourne un tableau avec les coordonnees GPS d'une borne dans un rayon de 10 KM 
 #cette fonction prend comme variable les coordonnes de la forme suivante: [latitude,longitude]
 def geofilter_bornes(coordonnees):
@@ -52,12 +48,15 @@ def geofilter_bornes(coordonnees):
    coordonnes_bornes = tuple(res["records"][0]["fields"]["geo_point_borne"]) # ajoute dans un tuple les coordonnees d'une borne
    return coordonnes_bornes
    
-@app.route("/geo", methods=['GET', 'POST'])
+
 def distance(depart,arrivee):
-   latitude_depart = depart[0]
-   longitude_depart = depart[1]
-   latitude_arrivee = arrivee[0]
-   longitude_arrivee = arrivee[1]
+   depart_trajet = geocode(depart)
+   arrivee_trajet = geocode(arrivee)
+
+   latitude_depart = depart_trajet[0]
+   longitude_depart = depart_trajet[1]
+   latitude_arrivee = arrivee_trajet[0]
+   longitude_arrivee = arrivee_trajet[1]
    headers = {'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',}
    api_key = '5b3ce3597851110001cf62485f5fee809b214c329e05166228f3f13d' #openroute token 
    res = requests.get('https://api.openrouteservice.org/v2/directions/driving-car?api_key=' + api_key + '&start=' + str(longitude_depart) + ',' + str(latitude_depart) + '&end=' + str(longitude_arrivee) + ',' + str(latitude_arrivee) , headers=headers)
@@ -78,7 +77,7 @@ def carte(depart,arrivee,autonomie):
    res = requests.get('https://api.openrouteservice.org/v2/directions/driving-car?api_key=' + api_key + '&start=' + str(longitude_depart) + ',' + str(latitude_depart) + '&end=' + str(longitude_arrivee) + ',' + str(latitude_arrivee) , headers=headers)
    res = res.json()
    distance = res["features"][0]["properties"]["summary"]["distance"] #distance du trajet en metres
-  
+   
    trajet = [] #tableau qui prend la liste des coordonnes GPS pour le trajet
    
    i = res["features"][0]["properties"]["way_points"][1] # nombre total de coordonnees GPS pour le trajet
@@ -109,7 +108,7 @@ def carte(depart,arrivee,autonomie):
             etape += 1
             print("etape =" + str(etape))
             print("distance parcourue est de " + str(distance_parcourue) + " mètres")
-            if ((autonomie - distance_parcourue) >= (autonomie_10):
+            if ((autonomie - distance_parcourue) >= autonomie_10):
                trajet.append(tuple([latitude,longitude])) # ajoute au tableau la liste des coordonées GPS      
             else:
                coordonnes = [latitude,longitude]
@@ -128,7 +127,7 @@ def carte(depart,arrivee,autonomie):
 
    return m._repr_html_()
 
-@app.route("/geocode", methods=['GET', 'POST'])
+
 def geocode(ville):
    headers = {'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',}
    api_key = '5b3ce3597851110001cf62485f5fee809b214c329e05166228f3f13d' #openroute token 
@@ -139,77 +138,75 @@ def geocode(ville):
    coordonnees_ville = [latitude,longitude]
    return coordonnees_ville
 
-@app.route("/graphql", methods=['GET', 'POST'])
+
 #https://developers.chargetrip.com/api-reference/cars/query-cars#query
 def query(): 
-   if request.method == "GET":
-      headers = {'Content-Type':'application/json','x-client-id':'633d9583be646cad8986e55e','x-app-id':'633d9583be646cad8986e560'}
+   headers = {'Content-Type':'application/json','x-client-id':'633d9583be646cad8986e55e','x-app-id':'633d9583be646cad8986e560'}
 
-      # Select your transport with a defined url endpoint
-      transport = AIOHTTPTransport(url="https://api.chargetrip.io/graphql", headers=headers)
+   # Select your transport with a defined url endpoint
+   transport = AIOHTTPTransport(url="https://api.chargetrip.io/graphql", headers=headers)
 
-      # Create a GraphQL client using the defined transport
-      client = Client(transport=transport, fetch_schema_from_transport=True)
+   # Create a GraphQL client using the defined transport
+   client = Client(transport=transport, fetch_schema_from_transport=True)
 
-      # Provide a GraphQL query
-      size = 20 #nombre de voitures à afficher
-      query = gql(
-         """
-         query carListAll {
-            carList (size:""" + str(size) + """){ 
-               id
-               naming {
-                  make
-                  model
-                  version
-                  edition
-                  chargetrip_version
-               }
-               battery {
-                  usable_kwh
-                  full_kwh
-               }
-               connectors {
-                  standard
-                  power
-                  time
-                  speed
-               }
-               adapters {
-                  standard
-                  power
-                  time
-                  speed
-               }
-               range {
-                  chargetrip_range {
-                  best
-                  worst
-                  }
+   # Provide a GraphQL query
+   size = 20 #nombre de voitures à afficher
+   query = gql(
+      """
+      query carListAll {
+         carList (size:""" + str(size) + """){ 
+            id
+            naming {
+               make
+               model
+               version
+               edition
+               chargetrip_version
+            }
+            battery {
+               usable_kwh
+               full_kwh
+            }
+            connectors {
+               standard
+               power
+               time
+               speed
+            }
+            adapters {
+               standard
+               power
+               time
+               speed
+            }
+            range {
+               chargetrip_range {
+               best
+               worst
                }
             }
-            }
-         """
-   )
+         }
+         }
+      """
+)
 
-      # Execute the query on the transport
-      res = client.execute(query)
-      list_Voiture = [] #Liste de voitures avec le nom, l'autonomie en km et le temps de rechargement en minutes.
-      for i in range(size-1):
+   # Execute the query on the transport
+   res = client.execute(query)
+   list_Voiture = [] #Liste de voitures avec le nom, l'autonomie en km et le temps de rechargement en minutes.
+   for i in range(size-1):
 
-         voiture = []
+      voiture = []
 
-         nom_voiture = res["carList"][i]["naming"]["make"] + " " + res["carList"][i]["naming"]["model"] #nom de la voiture avec le modèle
-         voiture.append(nom_voiture)
+      nom_voiture = res["carList"][i]["naming"]["make"] + " " + res["carList"][i]["naming"]["model"] #nom de la voiture avec le modèle
+      voiture.append(nom_voiture)
 
-         autonomie_voiture = res["carList"][i]["range"]["chargetrip_range"]["best"] #autonomie en km
-         voiture.append(autonomie_voiture)
+      autonomie_voiture = res["carList"][i]["range"]["chargetrip_range"]["best"] #autonomie en km
+      voiture.append(autonomie_voiture)
 
-         temps_rechargement_voiture = res["carList"][i]["connectors"][1]["time"] #duree de rechargement de 10 à 80% en minutes
-         voiture.append(temps_rechargement_voiture)
+      temps_rechargement_voiture = res["carList"][i]["connectors"][1]["time"] #duree de rechargement de 10 à 80% en minutes
+      voiture.append(temps_rechargement_voiture)
 
-         list_Voiture.append(voiture)
-      print(list_Voiture)
-      return list_Voiture
+      list_Voiture.append(voiture)
+   return list_Voiture
 
-         
+      

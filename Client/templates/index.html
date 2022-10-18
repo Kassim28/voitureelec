@@ -9,7 +9,7 @@
             <select class="form-select" aria-label="Default select example" name="voiture_choisie">
                 <option selected>Choisissez votre voiture</option>
                 {% for i in listeVoitures %}
-                    <option value={{i[1]}}>{{i[0]}} avec une autonomie de {{i[1]}} Km</option>
+                    <option value='{{i}}'>{{i[0]}} avec une autonomie de {{i[1]}} Km</option>
                 {% endfor %}
             </select>
             <div class="mb-3">
