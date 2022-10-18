@@ -5,6 +5,5 @@ gunicorn
 folium
 aiohttp
 requests
-zeep_client
 spyne
 wsgiref
