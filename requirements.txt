@@ -5,4 +5,3 @@ gunicorn
 folium
 aiohttp
 requests
-spyne
