@@ -9,25 +9,41 @@ from gql.transport.aiohttp import AIOHTTPTransport
 # Flask constructor
 app = Flask(__name__)
 
-
 @app.route("/", methods=['GET', 'POST'])
 def start():
    listeVoitures = query()
-
+   autonomie_voiture = 0
+   distance_trajet = 0
+   duree_trajet = 0
    if request.method == "GET":
-      return render_template('index.html',listeVoitures=listeVoitures)
-
+      return render_template('index.html',listeVoitures=listeVoitures,autonomie_voiture=autonomie_voiture,distance_trajet=distance_trajet,duree_trajet=duree_trajet)
+   
    if request.method == "POST":
       voiture_choisie = request.form.get("voiture_choisie") #recupere l'autonomie de la voiture solicitée
       depart = request.form.get("depart") #recupere le nom de la ville de départ
       arrivee = request.form.get("arrivee") #recupere le nom de la ville d'arrivée
       autonomie_voiture = list(voiture_choisie.split())[-2].replace(',', '')
       rechargement_voiture = list(voiture_choisie.split())[-1].replace(']', '')
+      distance_trajet = distance(depart,arrivee)
+      duree_trajet = calculatrice_duree(autonomie_voiture,distance_trajet,rechargement_voiture)
       print("L'autonomie de la voiture est de " + autonomie_voiture + " km.")
       print("Le temps de rechargement de la voiture est de " + rechargement_voiture + " minutes.")
       print("La distance du trajet est de " + str(distance(depart,arrivee)) + " mètres.")
-      calculatrice_duree(autonomie_voiture,distance(depart,arrivee),rechargement_voiture)
-      print(calculatrice_duree(autonomie_voiture,distance(depart,arrivee),rechargement_voiture))
+      print("La durée du trajet est de " + str(calculatrice_duree(autonomie_voiture,distance(depart,arrivee),rechargement_voiture)) + " h.")
+      return render_template('map.html',listeVoitures=listeVoitures,autonomie_voiture=autonomie_voiture,distance_trajet=distance_trajet,duree_trajet=duree_trajet,depart=depart,arrivee=arrivee)  
+
+@app.route("/carte", methods=['GET', 'POST'])
+def afficher_carte():
+   listeVoitures = query()
+
+   if request.method == "GET":
+      return render_template('map.html',listeVoitures=listeVoitures,autonomie_voiture=autonomie_voiture,distance_trajet=distance_trajet,duree_trajet=duree_trajet)
+
+   if request.method == "POST":
+      
+      autonomie_voiture = request.form.get("autonomie_voiture")
+      depart = request.form.get("depart")
+      arrivee = request.form.get("arrivee")
       coordonnees_depart = geocode(depart)
       coordonnees_arrivee = geocode(arrivee)
       return carte(coordonnees_depart,coordonnees_arrivee,autonomie_voiture)

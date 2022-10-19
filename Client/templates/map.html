@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+<section>
+    <h1>L'autonomie de la voiture est de {{autonomie_voiture}} Km.</h1>
+    <h1>La distance du trajet est de {{distance_trajet}} Km.</h1>
+    <h1>La durée estimée du trajet est de {{duree_trajet}} heures.</h1>
+</section>
+<section>
+    <form method="post" action="/carte">
+        <input type="text" name="autonomie_voiture" class="form-control" value="{{autonomie_voiture}}" hidden>
+
+        <input type="text" name="depart" value="{{depart}}"class="form-control" hidden>
+       
+        <input type="text" name="arrivee" value="{{arrivee}}" hidden>
+        
+        <button type="submit" class="btn btn-secondary">Afficher carte</button>
+    </form>
+    
+    </form>
+</section>
+<section>
+</section>
+<section>
+
+</section>
+{% endblock %}

@@ -1,8 +1,9 @@
     {% extends "layout.html" %}
     {% block body %}
     <section>
-        <h1>L'autonomie de la voiture est de {{autonomie}} Km.</h1>
-        <h1>La distance du trajet est de {{distance}} Km.</h1>
+        <h1>L'autonomie de la voiture est de {{autonomie_voiture}} Km.</h1>
+        <h1>La distance du trajet est de {{distance_trajet}} Km.</h1>
+        <h1>La durée estimée du trajet est de {{duree_trajet}} heures.</h1>
     </section>
     <section>
         <form method="post" action="./">
@@ -20,13 +21,18 @@
                 <label class="form-label">Nom de ville d'arrivée avec le nom du pays</label>
                 <input type="text" name="arrivee" class="form-control">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <button type="submit" name="map" class="btn btn-secondary">Calculer</button>
+
+            
+
+           
+        </form>
+        
         </form>
     </section>
-    <h2>La durée estimée du trajet est de {{res}} heures.</h2>
     <section>
     </section>
-    <h2> {{listVoitures}} </h2>
     <section>
 
     </section>
